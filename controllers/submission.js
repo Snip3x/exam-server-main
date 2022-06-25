@@ -1,4 +1,3 @@
-const { json } = require("express/lib/response");
 const Submission = require("../models/submission");
 
 exports.postAddSubmission = async (req, res, next) => {
@@ -37,3 +36,17 @@ exports.getSubmissions = async (req, res, next) => {
     res.status(400).send(err);
   }
 };
+exports.checkSubmission = async (req,res,next)=>{
+  try{
+    const check = await Submission.findByIdAndUpdate(req.params.sid,{marks:req.body.marks,status:true});
+    res.json({
+      check,
+      status: "success",
+    });
+  }catch{
+    (err)=>{
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
+}
